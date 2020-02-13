@@ -1,7 +1,7 @@
 # Masakhane Twitter Bot
 
 
-This is twitter bot that use Masakhane MNT models to translate your tweets in any African language
+This is a twitter bot that use Masakhane MNT models to translate your tweets in any African language
 
 
 Find more about the project [here](https://github.com/masakhane-io/masakhane)
