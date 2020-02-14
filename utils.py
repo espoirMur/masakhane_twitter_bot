@@ -17,8 +17,8 @@ def read_credentials():
     access_secret = os.getenv('TWITTER_ACCESS_SECRET')
 
     if all([consumer_key, consumer_secret, access_token, access_secret]):
-        return {"consumer_key": consumer_key, 
-                "consumer_secret": consumer_key,
+        return {"consumer_key": consumer_key,
+                "consumer_secret": consumer_secret,
                 "access_token": access_token,
                 "access_secret": access_secret}
     else:

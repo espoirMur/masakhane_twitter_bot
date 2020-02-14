@@ -1,8 +1,7 @@
 import os
 import sys
 import json
-from tweepy import API
-from tweepy import OAuthHandler
+from tweepy import OAuthHandler, API
 from utils import read_credentials
 
 
@@ -32,4 +31,9 @@ def get_twitter_client():
     """
     auth = get_twitter_auth()
     client = API(auth)
+    try:
+        client.verify_credentials()
+        print("Authentication OK")
+    except Exception as excp:
+        print("Error during authentication {}".format(excp))
     return client
