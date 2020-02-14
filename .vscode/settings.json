@@ -2,5 +2,8 @@
     "cSpell.words": [
         "tweepy"
     ],
-    "python.pythonPath": "/Users/es.py/.pyenv/versions/.venv/bin/python"
+    "python.pythonPath": "./.venv/bin/python",
+    "python.linting.pylintEnabled": false,
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.enabled": true
 }

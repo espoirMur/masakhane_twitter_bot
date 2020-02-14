@@ -2,12 +2,14 @@ from tweepy import Cursor, error as tweepy_error
 import logging
 from twitter_client import get_twitter_client
 import time
+from joey_mnt_scripts.core import translate, load_model
+global the_model
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 
-def check_mentions(api, keywords, since_id):
+def check_mentions(api, keywords, since_id, the_model):
     logger.info("Retrieving mentions")
     new_since_id = since_id
     for tweet in Cursor(api.mentions_timeline, since_id=since_id).items():
@@ -15,11 +17,14 @@ def check_mentions(api, keywords, since_id):
         if tweet.in_reply_to_status_id:
             # only reply to a tweet if it's a reply to a tweet
             parent_tweet = api.get_status(tweet.in_reply_to_status_id)
-            logger.info(parent_tweet.text, "=======>", 'we are translating this')
+            # TODOS : check if the tweet is in english before translating
+            translated_tweet = translate(parent_tweet.text, **the_model)
+            logger.info(parent_tweet.text, "=======>", 
+                        'we are translating this', translated_tweet)
             logger.info(f"Answering to {tweet.user.name}")
             
             try:
-                api.update_status(status="We are working on your tweet of your",
+                api.update_status(status=translated_tweet,
                                   in_reply_to_status_id=tweet.id)
             except tweepy_error.TweepError as error:
                 if error.api_code == 187:
@@ -42,8 +47,9 @@ def check_mentions(api, keywords, since_id):
 def main():
     api = get_twitter_client()
     since_id = 1
+    the_model = load_model("./transformer")
     while True:
-        since_id = check_mentions(api, ["help", "support"], since_id)
+        since_id = check_mentions(api, ["help", "support"], since_id, the_model)
         logger.info(f"Waiting...{since_id}", )
         time.sleep(60)
 
