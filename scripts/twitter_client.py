@@ -2,7 +2,7 @@ import os
 import sys
 import json
 from tweepy import OAuthHandler, API
-from utils import read_credentials
+from scripts.utils import read_credentials
 
 
 def get_twitter_auth():
