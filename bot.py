@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 
-def check_mentions(api, keywords, since_id, the_model):
+def check_mentions(api, since_id, the_model):
     logger.info("Retrieving mentions")
     new_since_id = since_id
     for tweet in Cursor(api.mentions_timeline, since_id=since_id).items():
@@ -19,9 +19,6 @@ def check_mentions(api, keywords, since_id, the_model):
             parent_tweet = api.get_status(tweet.in_reply_to_status_id)
             # TODOS : check if the tweet is in english before translating
             translated_tweet = translate(parent_tweet.text, **the_model)
-            logger.info(parent_tweet.text, "=======>", 
-                        'we are translating this', translated_tweet)
-            logger.info(f"Answering to {tweet.user.name}")
             
             try:
                 api.update_status(status=translated_tweet,
@@ -49,9 +46,10 @@ def main():
     since_id = 1
     the_model = load_model("./transformer")
     while True:
-        since_id = check_mentions(api, ["help", "support"], since_id, the_model)
-        logger.info(f"Waiting...{since_id}", )
+        since_id = check_mentions(api, since_id, the_model)
+        logger.info(f"Waiting...", )
         time.sleep(60)
+
 
 if __name__ == "__main__":
     main()
