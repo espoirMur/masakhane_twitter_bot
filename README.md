@@ -22,7 +22,7 @@
     <a href="https://github.com/espoirMur/masakhane_twitter_bot"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://twitter.com/Olobi_Nini">View Demo</a>
+    <a href="https://twitter.com/olobi_nini">View Demo</a>
     ·
     <a href="https://github.com/espoirMur/masakhane_twitter_bot">Report Bug</a>
     ·
@@ -166,7 +166,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Espoir - [@Olobi_Nini](https://twitter.com/Olobi_Nini) - espoir.mur on gmail
+Espoir - [@olobi_nini](https://twitter.com/olobi_nini) - espoir.mur on gmail
 
 Project Link: [https://github.com/espoirMur/masakhane_twitter_bot](https://github.com/espoirMur/masakhane_twitter_bot)
 
