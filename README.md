@@ -56,7 +56,8 @@ Masakhane is a open source started in September 2019 that aims to build translat
 
 This project is a bot that use the English-Lingala MNT model from the project and help to translate your english tweets into Lingala
 
-Lingala is one of the most spoken language in DRC , however it's have been translated in few language.
+Lingala is one of the most spoken language in DRC , however only few language has been translated into eat. It's even hard to translate local languages to Lingala.
+That is why I thought it may be useful to translate English to Lingala.
 
 This bot help you to translate your english tweets into Lingala tweets , in the future it will integrate many languages and will perform a reverse translation.
 
@@ -159,7 +160,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under my personal open source licence. See `LICENSE` for more information.
 
 
 
@@ -187,15 +188,15 @@ Project Link: [https://github.com/espoirMur/masakhane_twitter_bot](https://githu
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=flat-square
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+[contributors-url]: https://github.com/espoirMur/masakhane_twitter_bot/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=flat-square
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
+[forks-url]: https://github.com/espoirMur/masakhane_twitter_bot/network/members
 [stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=flat-square
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
+[stars-url]: https://github.com/espoirMur/masakhane_twitter_bot/stargazers
 [issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=flat-square
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
+[issues-url]: https://github.com/espoirMur/masakhane_twitter_bot/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=flat-square
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[license-url]: https://github.com/espoirMur/masakhane_twitter_bot/blob/master/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
+[linkedin-url]: https://www.linkedin.com/in/murhabazi-buzina-espoir-7849b1b1/
 [product-screenshot]: images/screenshot.png

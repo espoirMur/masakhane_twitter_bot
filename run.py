@@ -1,4 +1,4 @@
-from scripts.bot import check_mentions
+from scripts.bot import TwitterBot
 from scripts.twitter_client import get_twitter_client
 from config import logger
 from time import sleep
@@ -10,6 +10,7 @@ if __name__ == "__main__":
     since_id = 1
     the_model = load_model("./transformer")
     while True:
-        since_id = check_mentions(api, since_id, the_model)
+        the_bot = TwitterBot(api, since_id, the_model)
+        since_id = the_bot.check_mentions()
         logger.info(f"Waiting...", )
         sleep(60)
