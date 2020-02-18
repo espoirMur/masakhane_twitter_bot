@@ -11,9 +11,20 @@ from joeynmt.model import build_model
 from joeynmt.prediction import validate_on_data
 
 
-def translate(message_text, model, src_vocab, trg_vocab, preprocess, postprocess,
-              logger, beam_size, beam_alpha, level, lowercase,
-              max_output_length, use_cuda):
+def translate(
+        message_text,
+        model,
+        src_vocab,
+        trg_vocab,
+        preprocess,
+        postprocess,
+        logger,
+        beam_size,
+        beam_alpha,
+        level,
+        lowercase,
+        max_output_length,
+        use_cuda):
     """
     Describes how to translate a text message.
 
@@ -33,7 +44,7 @@ def translate(message_text, model, src_vocab, trg_vocab, preprocess, postprocess
     """
     sentence = message_text.strip()
     # remove emojis
-    emoji_pattern = re.compile("\:[a-zA-Z]+\:")
+    emoji_pattern = re.compile(r"\:[a-zA-Z]+\:")
     sentence = re.sub(emoji_pattern, "", sentence)
     sentence = sentence.strip()
     if lowercase:
@@ -42,16 +53,16 @@ def translate(message_text, model, src_vocab, trg_vocab, preprocess, postprocess
         sentence = p(sentence)
 
     # load the data which consists only of this sentence
-    test_data, src_vocab, trg_vocab = load_line_as_data(lowercase=lowercase,
-        line=sentence, src_vocab=src_vocab, trg_vocab=trg_vocab, level=level)
+    test_data, src_vocab, trg_vocab = load_line_as_data(
+        lowercase=lowercase, line=sentence, src_vocab=src_vocab, trg_vocab=trg_vocab, level=level)
 
     # generate outputs
     score, loss, ppl, sources, sources_raw, references, hypotheses, \
-    hypotheses_raw, attention_scores = validate_on_data(
-        model, data=test_data, batch_size=1, level=level,
-        max_output_length=max_output_length, eval_metric=None,
-        use_cuda=use_cuda, loss_function=None, beam_size=beam_size,
-        beam_alpha=beam_alpha, logger=logger)
+        hypotheses_raw, attention_scores = validate_on_data(
+            model, data=test_data, batch_size=1, level=level,
+            max_output_length=max_output_length, eval_metric=None,
+            use_cuda=use_cuda, loss_function=None, beam_size=beam_size,
+            beam_alpha=beam_alpha, logger=logger)
 
     # post-process
     if level == "char":
@@ -75,7 +86,7 @@ def load_model(model_dir, bpe_src_code=None, tokenize=None):
     :return:
     """
     conf = {}
-    cfg_file = model_dir+"/config.yaml"
+    cfg_file = model_dir + "/config.yaml"
 
     logger = logging.getLogger(__name__)
     conf["logger"] = logger
@@ -101,9 +112,9 @@ def load_model(model_dir, bpe_src_code=None, tokenize=None):
     src_vocab_file = cfg["training"]["model_dir"] + "/src_vocab.txt"
     trg_vocab_file = cfg["training"]["model_dir"] + "/trg_vocab.txt"
     conf["src_vocab"] = build_vocab(field="src", vocab_file=src_vocab_file,
-                            dataset=None, max_size=-1, min_freq=0)
+                                    dataset=None, max_size=-1, min_freq=0)
     conf["trg_vocab"] = build_vocab(field="trg", vocab_file=trg_vocab_file,
-                            dataset=None, max_size=-1, min_freq=0)
+                                    dataset=None, max_size=-1, min_freq=0)
 
     # whether to use beam search for decoding, 0: greedy decoding
     if "testing" in cfg.keys():
@@ -118,29 +129,32 @@ def load_model(model_dir, bpe_src_code=None, tokenize=None):
         src_tokenizer = MosesTokenizer(lang=cfg["data"]["src"])
         trg_tokenizer = MosesDetokenizer(lang=cfg["data"]["trg"])
         # tokenize input
-        tokenizer = lambda x: src_tokenizer.tokenize(x, return_str=True)
-        detokenizer = lambda x: trg_tokenizer.detokenize(
+        def tokenizer(x): return src_tokenizer.tokenize(x, return_str=True)
+        def detokenizer(x): return trg_tokenizer.detokenize(
             x.split(), return_str=True)
     else:
-        tokenizer = lambda x: x
-        detokenizer = lambda x: x
+        def tokenizer(x): return x
+        def detokenizer(x): return x
 
     if bpe_src_code is not None and level == "bpe":
         # load bpe merge file
         merge_file = open(bpe_src_code, "r")
         bpe = apply_bpe.BPE(codes=merge_file)
-        segmenter = lambda x: bpe.process_line(x.strip())
+        def segmenter(x): return bpe.process_line(x.strip())
     elif conf["level"] == "char":
         # split to chars
-        segmenter = lambda x: list(x.strip())
+        def segmenter(x): return list(x.strip())
     else:
-        segmenter = lambda x: x.strip()
+        def segmenter(x): return x.strip()
 
     conf["preprocess"] = [tokenizer, segmenter]
     conf["postprocess"] = [detokenizer]
     # build model and load parameters into it
     model_checkpoint = load_checkpoint(ckpt, conf["use_cuda"])
-    model = build_model(cfg["model"], src_vocab=conf["src_vocab"], trg_vocab=conf["trg_vocab"])
+    model = build_model(
+        cfg["model"],
+        src_vocab=conf["src_vocab"],
+        trg_vocab=conf["trg_vocab"])
     model.load_state_dict(model_checkpoint["model_state"])
 
     if conf["use_cuda"]:
@@ -148,4 +162,3 @@ def load_model(model_dir, bpe_src_code=None, tokenize=None):
     conf["model"] = model
     print("Joey NMT model loaded successfully.")
     return conf
-

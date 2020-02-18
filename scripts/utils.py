@@ -9,7 +9,7 @@ def read_credentials():
     """
     Return users os.getenv from the environnement variable
     raise a an exception if the os.getenv are empty
-    
+
     Raises:
         NotImplementedError: (description]
     """

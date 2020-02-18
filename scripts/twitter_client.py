@@ -1,6 +1,4 @@
-import os
 import sys
-import json
 from tweepy import OAuthHandler, API
 from scripts.utils import read_credentials
 

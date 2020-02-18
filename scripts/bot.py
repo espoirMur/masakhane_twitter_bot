@@ -1,6 +1,7 @@
 from tweepy import Cursor, error as tweepy_error
 from scripts.twitter_client import get_twitter_client
 from joey_mnt_scripts.core import translate
+from tweets_cleaner import TweetsCleaner
 from config import logger
 
 
@@ -17,7 +18,8 @@ class TwitterBot(object):
         self.api = api
         self.since_id = since_id
         self.the_models = the_models
-    
+        self.tweet_cleaner = TweetsCleaner()
+
     def reply_to_tweet(self, reply_message, tweet_id):
         """
         Reply to a tweet with the id passed in parameter with the message
@@ -33,13 +35,12 @@ class TwitterBot(object):
                 logger.error("You have already reply to this tweet")
             else:
                 logger.error('an error occur')
-    
+
     def check_parent_tweet_language(self, tweet, language_check):
         """
         Check tweet language
-        
         Args:
-            array_list of langauges 
+            array_list of languages
             tweet ([type]): tweet
         """
         language = tweet.lang
@@ -53,7 +54,7 @@ class TwitterBot(object):
     def get_target_language(self, tweet):
         """
         Return tweet target langauges
-        
+
         Args:
             tweet (string): the tweet
         """
@@ -63,16 +64,15 @@ class TwitterBot(object):
             elif 'ln' in tweet.text:
                 return 'ln'
         else:
-            message = """The target language is not specified or not supported 
+            message = """The target language is not specified or not supported
             yet add ln or swc in mention"""
             self.reply_to_tweet(message, tweet.id)
             return False
 
-
     def follow_back_user(self, user):
         """
         Follow back the user who tweeted
-        
+
         Args:
             user (object): twitter user
         """
@@ -98,20 +98,24 @@ class TwitterBot(object):
                             since_id=self.since_id).items():
             new_since_id = max(tweet.id, new_since_id)
             if tweet.in_reply_to_status_id:
-                ## if the tweet is in the format mention space target_lan_code
+                # if the tweet is in the format mention space target_lan_code
                 # only reply to a tweet if it's a reply to a tweet
                 # TODOS: should get the language here
                 target_language = self.get_target_language(tweet)
                 parent_tweet = self.api.get_status(tweet.in_reply_to_status_id)
-                source_language = self.check_parent_tweet_language(parent_tweet,
-                                                            ['en', 'fr'])
+                source_language = self.check_parent_tweet_language(
+                    parent_tweet, ['en', 'fr'])
                 if source_language and target_language:
                     language_model = f'{source_language}_{target_language}'
                     model = self.the_models.get(language_model)
-                    # TODOS: More to be done on preprocesing with Tokenniser
+                    # TODOS: More to be done on preprocesing with Tokenizer
                     if model:
+                        tweet_sentences = self.tweet_cleaner.pre_process_tweet(parent_tweet)
+                        print(tweet_sentences, '======>')
+                        # need to check this
                         translated_tweet = ''.join([translate(sentence, **model)
-                        for sentence in parent_tweet.text.split('.')])
+                                                    for sentence in tweet_sentences])
+                        print(translated_tweet, '===translation===>')
                         self.reply_to_tweet(translated_tweet, tweet.id)
                         self.follow_back_user(tweet.user)
                 else:

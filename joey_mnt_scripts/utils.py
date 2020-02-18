@@ -27,9 +27,9 @@ def load_line_as_data(line, level, lowercase, src_vocab, trg_vocab):
     :return:
     """
     if level == "char":
-        tok_fun = lambda s: list(s)
+        def tok_fun(s): return list(s)
     else:  # bpe or word, pre-tokenized
-        tok_fun = lambda s: s.split()
+        def tok_fun(s): return s.split()
 
     src_field = data.Field(init_token=None, eos_token=EOS_TOKEN,  # FIXME
                            pad_token=PAD_TOKEN, tokenize=tok_fun,
