@@ -44,6 +44,5 @@ def load_models(path='transformer'):
     models_folder = os.path.join(working_dir, path)
     for folder in glob(f'{models_folder}/*/'):
         name = folder.split('/')[-2].replace('-', '_')
-        print(name, folder, '========>')
         the_models[name] = load_model(os.path.join(path, folder))
     return the_models
