@@ -1,0 +1,11 @@
+version: '3'
+services:
+  bot:
+    build: .
+    volumes:
+    - .:/bots
+    - logvolume01:/var/log
+    environment:
+    - LC_ALL=C.UTF-8
+volumes:
+  logvolume01: {}

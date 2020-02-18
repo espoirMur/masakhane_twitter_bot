@@ -121,6 +121,7 @@ If you are a developer working on a translation using [JOEYMNT](https://github.c
 * The source and target vocabulary named `src_vocab.txt` and `trg_vocab.txt `
  should be in the `transformer` folder.
  
+ <!-- Should set cuda to false and edit the model folder -->
  * You don't need to change the config.yaml if you have a BPE based
  model.
  

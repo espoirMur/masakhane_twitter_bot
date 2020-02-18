@@ -5,18 +5,18 @@ from config import logger
 
 
 class TwitterBot(object):
-    def __init__(self, api, since_id, the_model):
+    def __init__(self, api, since_id, the_models):
         """
         This class create the twitter bot
         Args:
             object ([type]): [description]
             api ([type]): the twitter api
             since_id ([type]): the time since the last translation
-            the_model ([type]): this should be a dictionary of loaded_model
+            the_models ([type]): this should be a dictionary of loaded_model
         """
         self.api = api
         self.since_id = since_id
-        self.the_model = the_model
+        self.the_models = the_models
 
     def check_mentions(self):
         """
@@ -36,7 +36,8 @@ class TwitterBot(object):
                 parent_tweet = self.api.get_status(tweet.in_reply_to_status_id)
                 # TODOS : check if the tweet is in english before translating
                 # TODOS: More to be done on preprocesing with Tokenniser
-                translated_tweet = ''.join([translate(sentence, **self.the_model)
+                translated_tweet = ''.join([translate(sentence,
+                    **self.the_models.get('en_ln'))
                     for sentence in parent_tweet.text.split('.')])
                 try:
                     self.api.update_status(status=translated_tweet,

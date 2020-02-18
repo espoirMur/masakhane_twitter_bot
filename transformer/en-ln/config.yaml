@@ -43,7 +43,7 @@ training:
     validation_freq: 1000          # TODO: Set to at least once per epoch.
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "./transformer"
+    model_dir: "transformer/en-ln"
     overwrite: False               # TODO: Set to True if you want to overwrite possibly existing models. 
     shuffle: True
     use_cuda: False # should set to true when on VM
