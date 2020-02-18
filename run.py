@@ -4,7 +4,6 @@ from config import logger
 from time import sleep
 from joey_mnt_scripts.core import translate, load_model
 
-
 if __name__ == "__main__":
     api = get_twitter_client()
     since_id = 1

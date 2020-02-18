@@ -8,7 +8,6 @@ class TwitterBot(object):
     def __init__(self, api, since_id, the_model):
         """
         This class create the twitter bot
-        
         Args:
             object ([type]): [description]
             api ([type]): the twitter api
@@ -21,10 +20,10 @@ class TwitterBot(object):
 
     def check_mentions(self):
         """
-        this is the bot itself it check the mention , get the text it was 
+        this is the bot itself it check the mention , get the text it was
         the mention was replying to and translate it
         Returns:
-           new_since if
+           new_since : the last time I tweeted
         """
         logger.info("Retrieving mentions")
         new_since_id = self.since_id
@@ -36,7 +35,9 @@ class TwitterBot(object):
                 # TODOS: should get the language here
                 parent_tweet = self.api.get_status(tweet.in_reply_to_status_id)
                 # TODOS : check if the tweet is in english before translating
-                translated_tweet = ''.join([translate(sentence, **self.the_model) for sentence in parent_tweet.text.split('.')])
+                # TODOS: More to be done on preprocesing with Tokenniser
+                translated_tweet = ''.join([translate(sentence, **self.the_model)
+                    for sentence in parent_tweet.text.split('.')])
                 try:
                     self.api.update_status(status=translated_tweet,
                                            in_reply_to_status_id=tweet.id)
