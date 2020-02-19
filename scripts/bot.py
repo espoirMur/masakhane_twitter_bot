@@ -20,6 +20,28 @@ class TwitterBot(object):
         self.the_models = the_models
         self.tweet_cleaner = TweetsCleaner()
 
+    def translate_text(self, text, model):
+        """
+        Given the model and the text translate the text and return the translated tex
+
+        Args:
+            text ([type]): Array of sentences to transalate
+            model ([type]): the model to use to translate
+        """
+        #translated_text = '. '.join(
+        #    [translate(sentence, **model) for sentence in text])
+
+        ## TODO: should I translate the whole text or sentence per sentence?
+        """if isinstance(text, list):
+            translated_paragraph = ''
+            for sentence in text:
+                translated_text = translate(sentence, **model)
+                print(translated_text, '====')
+                translated_paragraph = f'{translated_paragraph}. {translated_text}'
+            return translated_paragraph
+        else:"""
+        return translate(text, **model)
+
     def reply_to_tweet(self, reply_message, tweet_id):
         """
         Reply to a tweet with the id passed in parameter with the message
@@ -100,7 +122,6 @@ class TwitterBot(object):
             if tweet.in_reply_to_status_id:
                 # if the tweet is in the format mention space target_lan_code
                 # only reply to a tweet if it's a reply to a tweet
-                # TODOS: should get the language here
                 target_language = self.get_target_language(tweet)
                 parent_tweet = self.api.get_status(tweet.in_reply_to_status_id)
                 source_language = self.check_parent_tweet_language(
@@ -108,13 +129,13 @@ class TwitterBot(object):
                 if source_language and target_language:
                     language_model = f'{source_language}_{target_language}'
                     model = self.the_models.get(language_model)
-                    # TODOS: More to be done on preprocesing with Tokenizer
                     if model:
-                        tweet_sentences = self.tweet_cleaner.pre_process_tweet(parent_tweet)
-                        print(tweet_sentences, '======>')
+                        tweet_cleaned = self.tweet_cleaner.pre_process_tweet(
+                            parent_tweet)
+                        print(tweet_cleaned, '======>')
                         # need to check this
-                        translated_tweet = ''.join([translate(sentence, **model)
-                                                    for sentence in tweet_sentences])
+                        translated_tweet = self.translate_text(tweet_cleaned,
+                                                               model)
                         print(translated_tweet, '===translation===>')
                         self.reply_to_tweet(translated_tweet, tweet.id)
                         self.follow_back_user(tweet.user)

@@ -82,8 +82,10 @@ class TweetsCleaner:
         text = text.replace("«", "")
         text = text.replace("»", "")
         text = text.replace("_", "")
-        text = re.sub(r"\b\w{1}\b", "", text)
-        text = re.sub(r"\b\w{2}\b", "", text)
-        text = self.remove_emoji(text)
-        sentences = tokenize.sent_tokenize(text)
-        return sentences
+        # handle sentences which end without space after point
+        # check https://stackoverflow.com/a/44860184/4683950
+        # check again if i should use sentences or the whole paragraph
+        #text = re.sub(r'([a-z])\.([A-Z])', r'\1. \2', text)
+        #sentences = tokenize.sent_tokenize(text)
+        
+        return text
