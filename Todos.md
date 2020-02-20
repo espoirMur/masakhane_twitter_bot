@@ -1,0 +1,2 @@
+- [] Add redis to avoid replying twice to the same tweet
+- [] improve preprocessing and check what is wrong with the swahili model

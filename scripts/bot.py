@@ -28,10 +28,10 @@ class TwitterBot(object):
             text ([type]): Array of sentences to transalate
             model ([type]): the model to use to translate
         """
-        #translated_text = '. '.join(
+        # translated_text = '. '.join(
         #    [translate(sentence, **model) for sentence in text])
 
-        ## TODO: should I translate the whole text or sentence per sentence?
+        # TODO: should I translate the whole text or sentence per sentence?
         """if isinstance(text, list):
             translated_paragraph = ''
             for sentence in text:

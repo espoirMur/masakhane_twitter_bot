@@ -87,5 +87,5 @@ class TweetsCleaner:
         # check again if i should use sentences or the whole paragraph
         #text = re.sub(r'([a-z])\.([A-Z])', r'\1. \2', text)
         #sentences = tokenize.sent_tokenize(text)
-        
+
         return text
