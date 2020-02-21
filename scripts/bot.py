@@ -1,5 +1,4 @@
 from tweepy import Cursor, error as tweepy_error
-from scripts.twitter_client import get_twitter_client
 from joey_mnt_scripts.core import translate
 from tweets_cleaner import TweetsCleaner
 from config import logger
@@ -20,9 +19,10 @@ class TwitterBot(object):
         self.the_models = the_models
         self.tweet_cleaner = TweetsCleaner()
 
-    def translate_text(self, text, model):
+    def translate_text(self, sentence, model):
         """
-        Given the model and the text translate the text and return the translated tex
+        Given the model and the text translate the text and return the
+        translated text
 
         Args:
             text ([type]): Array of sentences to transalate
@@ -30,17 +30,7 @@ class TwitterBot(object):
         """
         # translated_text = '. '.join(
         #    [translate(sentence, **model) for sentence in text])
-
-        # TODO: should I translate the whole text or sentence per sentence?
-        """if isinstance(text, list):
-            translated_paragraph = ''
-            for sentence in text:
-                translated_text = translate(sentence, **model)
-                print(translated_text, '====')
-                translated_paragraph = f'{translated_paragraph}. {translated_text}'
-            return translated_paragraph
-        else:"""
-        return translate(text, **model)
+        return '. '.join([translate(text, **model) for text in sentence])
 
     def reply_to_tweet(self, reply_message, tweet_id):
         """
@@ -132,11 +122,9 @@ class TwitterBot(object):
                     if model:
                         tweet_cleaned = self.tweet_cleaner.pre_process_tweet(
                             parent_tweet)
-                        print(tweet_cleaned, '======>')
                         # need to check this
                         translated_tweet = self.translate_text(tweet_cleaned,
                                                                model)
-                        print(translated_tweet, '===translation===>')
                         self.reply_to_tweet(translated_tweet, tweet.id)
                         self.follow_back_user(tweet.user)
                 else:

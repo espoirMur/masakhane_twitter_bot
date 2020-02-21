@@ -85,7 +85,7 @@ class TweetsCleaner:
         # handle sentences which end without space after point
         # check https://stackoverflow.com/a/44860184/4683950
         # check again if i should use sentences or the whole paragraph
-        #text = re.sub(r'([a-z])\.([A-Z])', r'\1. \2', text)
-        #sentences = tokenize.sent_tokenize(text)
+        text = re.sub(r'([a-z])\.([A-Z])', r'\1. \2', text)
+        sentences = tokenize.sent_tokenize(text)
 
-        return text
+        return sentences
