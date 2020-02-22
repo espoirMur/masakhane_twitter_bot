@@ -114,7 +114,17 @@ cp sample.env ./.env
 
 ## Customize to serve your model
 
-If you are a developer working on a translation using [JOEYMNT](https://github.com/joeynmt/joeynmt) and would like to create a similar bot give the following file : 
+If you are a developer working on a translation using [JOEYMNT](https://github.com/joeynmt/joeynmt) and would like to create a similar bot:
+
+- Go to the transformer folder and create a directory with your the name of your source and target language. Like this :
+
+`mkdir transformer/{src_language}-{target_lang}`
+
+for example 
+
+`mkdir transformer/fr_swc`
+
+- Add the following files to the directory : 
 
 * Your model : A checkpoint file named `best.ckpt`  should be in the
 `transformer` older 
@@ -122,10 +132,12 @@ If you are a developer working on a translation using [JOEYMNT](https://github.c
  should be in the `transformer` folder.
  
  <!-- Should set cuda to false and edit the model folder -->
- * You don't need to change the config.yaml if you have a BPE based
- model.
- 
- 
+ * And the config.yaml for your model.
+Note : to make this work you need to change :
+  model_dir key in your config and set it to :  transformer/src-target and use_cuda to False since we are not using cuda.
+you should have  : 
+model_dir: transformer/fr-sw, use_cuda: False 
+if you are translating from fr to sw for example
  ----
 The model can be quite big and Github have restrictions on the size of your 
 free repos. You can host your model on google drive as I do. 
