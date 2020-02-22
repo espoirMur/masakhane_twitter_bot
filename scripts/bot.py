@@ -12,7 +12,7 @@ class TwitterBot(object):
             object ([type]): [description]
             api ([type]): the twitter api
             since_id ([type]): the time since the last translation
-            the_models ([type]): this should be a dictionary of loaded_model
+            the_models ([type]): this should be a dictionary of loaded_models
         """
         self.api = api
         self.since_id = since_id
@@ -70,14 +70,15 @@ class TwitterBot(object):
         Args:
             tweet (string): the tweet
         """
+        # TODO : this can be refactored
         if 'swc' in tweet.text or 'ln' in tweet.text:
             if 'swc' in tweet.text:
                 return "swc"
             elif 'ln' in tweet.text:
                 return 'ln'
         else:
-            message = """The target language is not specified or not supported
-            yet add ln or swc in mention"""
+            message = "The target language is not specified"\
+                " or not supported yet add ln or swc in mention"
             self.reply_to_tweet(message, tweet.id)
             return False
 
@@ -109,6 +110,8 @@ class TwitterBot(object):
         for tweet in Cursor(self.api.mentions_timeline,
                             since_id=self.since_id).items():
             new_since_id = max(tweet.id, new_since_id)
+            logger.info(
+                f"{self.since_id} Okay what is happening? {new_since_id}")
             if tweet.in_reply_to_status_id:
                 # if the tweet is in the format mention space target_lan_code
                 # only reply to a tweet if it's a reply to a tweet
@@ -127,6 +130,9 @@ class TwitterBot(object):
                                                                model)
                         self.reply_to_tweet(translated_tweet, tweet.id)
                         self.follow_back_user(tweet.user)
+                        logger.info(
+                            f"we got this {tweet_cleaned}"
+                            "and replied with this {translated_tweet}")
                 else:
                     continue
             else:
