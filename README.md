@@ -56,7 +56,7 @@ Masakhane is a open source started in September 2019 that aims to build translat
 
 This project is a bot that use the English-Lingala MNT model from the project and help to translate your english tweets into Lingala
 
-Lingala is one of the most spoken language in DRC , however only few language has been translated into eat. It's even hard to translate local languages to Lingala.
+Lingala is one of the most spoken language in DRC , however only few language has been translated into it. It's even hard to translate local languages to Lingala.
 That is why I thought it may be useful to translate English to Lingala.
 
 This bot help you to translate your english tweets into Lingala tweets , in the future it will integrate many languages and will perform a reverse translation.
