@@ -48,7 +48,7 @@ PySocks==1.7.1
 python-dateutil==2.8.1
 python-dotenv==0.11.0
 pytz==2019.3
-PyYAML==5.3
+PyYAML==5.4
 redis==3.4.1
 redisworks==0.2.7
 regex==2020.1.8
